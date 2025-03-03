@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage your Tasks</title>
+
+    <link rel="stylesheet" href="Style/index.css">
+    <link rel="stylesheet" href="Style/addTaskToMain.css">
+    <link rel="stylesheet" href="Style/addTask.css">
+    <link rel="stylesheet" href="Style/sidebar.css">
+    <link rel="stylesheet" href="fontawesome-free-6.7.1-web/css/all.min.css">
+    <!--Flatpickr Link-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+</head>
+
+<body>
+    <section class="tasks-container">
+
+        <div class="tasks-sidebar">
+            <div>Tasks</div>
+        </div>
+
+        <div class="tasks-maincontent">
+            <div class="tasks-maincontent__today">
+                <div class="today-tasks">
+                    <h2>Today's Tasks</h2>
+
+                    <div class="today-tasks__grid">
+                        <div class="today-tasks__grid__child" id="tasksGrid"></div>
+                        <div style="display: none;" class="today-finishedTasks">
+                            <h1>Finished Tasks</h1>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="today-container__button">
+                    <div class="button-container">
+                        <button id="addTaskButton">Add New Task</button>
+                    </div>
+
+                    <div class="container-input">
+                        <input class="today-container__input" id="taskInputContent" type="text"
+                            placeholder="Type your task here">
+                    </div>
+
+                    <div class="task-container" id="containerAddTask" style="position: relative;">
+                        <div class="task-container__icon" data-icons="0">
+                            <i class="fa-solid fa-clipboard-list task-icon"></i>
+                            <p class="tasksParagraph">Tasks</p>
+
+                        </div>
+
+                        <div class="task-container__icon" data-icons="1">
+                            <i class="fa-solid fa-calendar task-icon"></i>
+                            <p class="tasksParagraph"></p>
+                        </div>
+
+                        <div class="task-container__icon" data-icons="2">
+                            <i class="fa-solid fa-stopwatch task-icon"></i>
+                            <p class="tasksParagraph"></p>
+                        </div>
+
+                        <div class="task-container__icon" data-icons="3">
+                            <i class="fa-solid fa-arrows-spin task-icon"></i>
+                            <p class="tasksParagraph"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--Flatpickr-->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+    <script src="Javascript/class/Tasks.js"></script>
+    <script src="Javascript/class/DisplayCreate.js"></script>
+    <script src="Javascript/class/WindowCreate.js"></script>
+    <script src="Javascript/dom.js"></script>
+    <script src="Javascript/ui.js"></script>
+    <script src="Javascript/index.js"></script>
+    <script src="Javascript/sidebar.js"></script>
+    <script src="Javascript/addTask.js"></script>
+    <script src="/Javascript/addTaskToMain.js"></script>
+</body>
+
+</html>

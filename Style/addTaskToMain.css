@@ -1,0 +1,176 @@
+/*1*/
+.task-container {
+    display: none;
+    width: 40%;
+    height: 100%;
+}
+
+.task-container__icon {
+    height: min-content;
+    width: auto;
+    position: relative;
+    display: flex;
+    gap: 0.5rem;
+    padding: 1rem;
+}
+
+.task-container__icon:hover {
+    background-color: #C0C0C0;
+}
+
+.task-icon {
+    cursor: pointer;
+    font-size: 2rem;
+}
+
+.tasksParagraph {
+    font-size: 1.5rem;
+    color: #000;
+    width: auto;
+    text-align: left;
+}
+
+
+
+
+
+
+
+
+
+
+
+/*2*/
+/*table that shows up when list, celander, clock or cycletask is clicked*/
+.container-icon {
+    bottom: 6rem;
+    left: -5rem;
+    background-color: #000;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+    overflow-y: auto;
+}
+
+.displayCreate {
+    position: absolute !important;
+    background-color: #000;
+    padding: 1rem;
+    z-index: 50;
+    cursor: pointer;
+}
+
+.windowCreate {
+    margin: 0;
+    padding: 0;
+    z-index: 1000;
+    cursor: pointer;
+    background-color: #000;
+    min-height: 4rem;
+    color: #fff;
+    font-size: 1.5rem;
+}
+
+.container-icon-childDiv {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+}
+
+.container-icon-childDiv i {
+    width: 30%;
+}
+
+.container-icon-childDiv:hover {
+    background-color: #fff;
+    color: #000;
+}
+
+.flatpickrInput {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    pointer-events: auto;/* Permite clicar no input invisível */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*3 (Custom cycle tasks container)*/
+#customTaskCycle {
+    padding: 2rem;
+    flex-direction: column;
+    gap: 2rem;
+    border-radius: 8px;
+    display: flex; 
+    position: absolute; 
+    bottom: 150px; 
+    right: 0;
+    background-color: black;
+    z-index: 100;
+}
+
+#customTaskCycle p {
+    color: #fff;
+    font-size: 2rem;
+}
+
+ 
+/*Custom Task styles*/
+.customTaskList {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.customTaskList input {
+    border-radius: 8px;
+    padding: 0.5rem;
+}
+
+.customTaskList input:focus {
+    outline: none;
+}
+
+.infoValue {
+    width: 40%;
+}
+
+.typeOfInfoValue {
+    width: 60%;
+}
+
+#customTaskCycle div {
+    display: flex;
+    gap: 0.5rem;
+}
+
+#customTaskCycle div button {
+    padding: 0.8rem;
+    font-size: 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 50%;
+    border: none;
+    transition: 0.25s;
+}
+
+#customTaskCycle div button:hover {
+    color: #fff;
+    background-color: #000;
+}

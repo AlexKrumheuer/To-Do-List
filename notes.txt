@@ -1,0 +1,8 @@
+-Ajustar botões da sidebar (ao invés de abrir o flatpicker, poder selecionar
+outras opçoes como daqui uma semana, daqui um mês)
+-Ajustar o botão de cycleTask da sidebar
+-Ajustar para ter como filtrar as tarefas, tanto as concluidas quanto as
+em andamento
+-Ajustar para poder excluir uma informçaõ colocada, por exemplo, não repetir
+mais semanal
+-Ajustar o formato da data quando editada a tarefa

@@ -1,0 +1,43 @@
+/*4*/
+.Task-elements__style {
+    width: 25%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nameTask {
+    width: 20%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.infoTask {
+    height: 100%;
+    width: 80%;
+    display: flex;
+    align-items: center;
+}
+
+.buttonCompletedTask {
+    color: #000;
+    font-size: 3rem;
+    width: auto;
+    cursor: pointer;
+}
+
+.inputTextTask {
+    font-size: 1.5rem;
+}
+
+/*Class of the elements*/
+.today-tasks-elements {
+    height: 100%;
+    font-size: 1.5rem;
+    padding: 1.5rem;
+    vertical-align: top;
+    text-align: center;
+}
