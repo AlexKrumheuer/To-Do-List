@@ -23,7 +23,7 @@ containerIcons.forEach((element) => {
     })
 })
 
-//When something is inputed in the "type your task camp"
+//When something is inputed in the "type your task camp", it shows the custom task items
 inputContent.addEventListener("input", () => {
     containerAddTask.style.display = "flex"
     if (inputContent.value == '') {
@@ -31,7 +31,7 @@ inputContent.addEventListener("input", () => {
     }
 })
 
-
+//Verify every click in the body, if any click happens, then pop the first element of stackOpenWindow and closes the last window
 document.body.addEventListener("click", (event) => {
     if (stackOpenWindow.length != 0) {
         if (event.target.closest(".clickVerify") != stackOpenWindow[stackOpenWindow.length - 1]) {

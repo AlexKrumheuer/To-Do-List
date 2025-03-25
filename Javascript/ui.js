@@ -1,6 +1,4 @@
 //***********************************All variable declarations***************************************
-let sidebarElementParent = ""
-
 //List of all tasks
 let tasks = []
 let taskNumber = 0
@@ -26,12 +24,17 @@ let classImages = new Map([
     ["Monthly", { c1: "fa-regular", c2: "fa-calendar" }],
     ["Yearly", { c1: "fa-solid", c2: "fa-calendar-day" }],
     ["Custom", { c1: "fa-regular", c2: "fa-calendar-plus" }],
-    ["Remove", { c1: "fa-solid", c2: "fa-xmark" }]
+    ["Remove", { c1: "fa-solid", c2: "fa-xmark" }],
+    ["Shop", { c1: "fa-solid", c2: "fa-cart-shopping" }],
+    ["MealPrep", { c1: "fa-solid", c2: "fa-bowl-food" }],
+    ["TechShop", { c1: "fa-solid", c2: "fa-gamepad" }],
+    ["TravelShop", { c1: "fa-solid", c2: "fa-plane" }],
+    ["GymShop", { c1: "fa-solid", c2: "fa-dumbbell" }],
 ])
 
 //Tasks's type. Object with their name and image
-let listTasks = [{ nome: "Tasks", image: "Tasks" }, { nome: "safsafasf", image: "Default" }, { nome: "asfasfasf", image: "Tasks" }
-    , { nome: "asfasfasf", image: "Default" }, { nome: "asfasfasf", image: "Default" }, { nome: "asfafa", image: "Tasks" }
+let listTasks = [{ nome: "Tasks", image: "Tasks" }, { nome: "Grocery Shopping List", image: "Shop" }, { nome: "Meal Prep Shopping List", image: "MealPrep" }
+    , { nome: "Tech Shopping List", image: "TechShop" }, { nome: "Travel Shopping List", image: "TravelShop" }, { nome: "Gym Shopping List", image: "GymShop" }
 ]
 //List of task's date
 let listDateTasks = [{ nome: "Today", image: "Today" }, { nome: "Tomorrow", image: "Tomorrow" }, { nome: "Next Week", image: "Next Week" },

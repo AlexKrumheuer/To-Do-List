@@ -1,6 +1,6 @@
 /*Sidebar that appears when the right button is clicked over a task*/
 .sidebarTaskConfigContainer {
-    display: none;
+    display: flex;
     flex-direction: column;
     justify-content: space-between;
     width: 25%;

@@ -1,7 +1,6 @@
 class DisplayCreate {
     //Verify if there's a window already oppened
     static createdElement = false
-    static subChildElement = false
     //Create the element
     constructor(width, height, parent) {
         // ElementCreated
@@ -18,12 +17,12 @@ class DisplayCreate {
 
 
         //When the element is clicked, is closed
-        //this.display.addEventListener("click", ()=> this.fechar());
+        //this.display.addEventListener("click", ()=> this.closeWindow());
         this.display.addEventListener("click", (event) => {
             event.stopPropagation(); // Impede que o clique chegue no parent
         });
 
-        // Adicionar ao corpo do documento
+        //Adds and configs element to the parent element
         document.body.appendChild(this.display);
         this.positionNearButton(parent);
     }
@@ -59,7 +58,7 @@ class DisplayCreate {
         return this.display;
     }
     //Closes the element
-    fechar() {
+    closeWindow() {
         DisplayCreate.createdElement = false
         this.display.removeEventListener("click", () => { })
         document.body.removeEventListener("click", () => { })

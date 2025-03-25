@@ -120,11 +120,9 @@ function defaultTasks() {
 }
 
 function nameTaskAlreadyExists(nameTask){
-    for(let i = 0; i < tasks.length; i++) {
-        if(tasks[i].taskName == nameTask){
-            alert("This name task is already in use")
-            return true
-        }
+    if(tasks.some(task => task.taskName === nameTask)){
+        alert("This name task is already in use")
+        return true
     }
     return false
 }
@@ -178,7 +176,7 @@ function addItem(index, elementHtml, taskObject) {
 /**********************2.1*****************************/
 
 function conclusionTaskButtonClicked(conclusionTaskButton, elementObject) {
-    elementObject.taskFinished = !elementObject.taskFinished;
+    elementObject.taskFinished = !elementObject.taskFinished;   
     {conclusionTaskButtonChangeStatusAndAppearence(elementObject.taskFinished, conclusionTaskButton, elementObject)} 
 }
 
@@ -187,7 +185,6 @@ function conclusionTaskButtonChangeStatusAndAppearence(finished, conclusionTaskB
     conclusionTaskButton.classList.add("fa-regular")
     let circleIcon, attribute, display
     if(finished) {
-        console.log(finished)
         circleIcon = "fa-circle-xmark"
         display = "flex"
     } else{

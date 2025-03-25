@@ -167,7 +167,7 @@ function customCycleTaskEventClick(customCycleDiv) {
 
 //*****************************3*************************** */
 function buttonClicked(buttonHtml, parent) {
-    actualDisplay.fechar()
+    actualDisplay.closeWindow()
     stackOpenWindow.pop()
     if (buttonHtml.children[1].textContent == "Remove") {
         //Reset Icon

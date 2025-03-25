@@ -6,26 +6,23 @@ let elementParentObject
 let taskTextValue
 let sidebarContainer
 
-//List of tasks
-let listItems = document.querySelectorAll(".listItems")
-//Text of list's tasks
-let textListItems = document.getElementById("listItemsText")
-//Image of list's tasks
-let imageListItems = document.getElementById("listTask")
 //Select sidebar and grid of tasks. Turn sidebar visible and decrease task's grid size
 const sidebarTaskConfigContainer = document.querySelector(".sidebarTaskConfigContainer")
-const taskGrid = document.querySelector(".today-tasks__grid")
-//All the img's
-let sidebarImages = document.querySelectorAll(".sidebarTaskImage")
-//All the paragraphs
-let sidebarText = document.querySelectorAll(".sidebarTaskText")
+let taskGrid = document.querySelector(".today-tasks__grid")
 let listButtonsEditSidebar = document.querySelectorAll(".sidebarTaskButtonsEdit")
+let sidebarDiv
+let conclusionTaskButton
 
-let sidebarParent = document.querySelector("today-tasks")
+//Sidebar components
+let buttonsSaveCancel
+let sidebarImages
+let sidebarText
+
+let sidebarParent = document.querySelector(".today-tasks")
 let sidebarHtml = `
                         <div class="sidebarTaskMainContent">
                             <div class="sidebarTaskMainContent__closebutton">
-                                <i class="fa-solid fa-x"></i>
+                                <i class="fa-solid fa-trash trash"></i>
                             </div>
 
                             <div class="sidebarTaskMainContentChild">
@@ -34,7 +31,6 @@ let sidebarHtml = `
                                         <i class="fa-regular fa-circle sidebarTaskMainContent__finishedTaskButton"></i>
                                         <input type="text" id="taskNameValue">
                                     </div>
-                                    <i class="fa-regular fa-star"></i>
                                 </div>
                             </div>
 
@@ -62,6 +58,9 @@ let sidebarHtml = `
 function voidSidebar(elementParent) {
     elementParent.addEventListener("contextmenu", (event) => {
         event.preventDefault()
+        if (isSidebarOpen()) {
+            return
+        }
 
         let sidebarElementParent = event.target.closest(".elementParent")
 
@@ -79,16 +78,11 @@ function voidSidebar(elementParent) {
 
         taskGrid.style.width = "75%"
 
-        let sidebarDiv = document.createElement("div")
+        sidebarDiv = document.createElement("div")
         sidebarDiv.classList.add("sidebarTaskConfigContainer")
         sidebarDiv.innerHTML = sidebarHtml
-        setSidebarVariables(sidebarDiv)
         sidebarParent.appendChild(sidebarDiv)
-
-
-        resetSidebarInfo()
-
-
+        setSidebarVariables(sidebarDiv)
         //Add flatpickr to task elements in the sidebar && cycle tasks option
         listButtonsEditSidebar.forEach((element) => {
             element.addEventListener("click", () => {
@@ -106,7 +100,7 @@ function voidSidebar(elementParent) {
                 }
             })
         })
-
+        deleteTask()
         sidebarPutInfo()
         finishedSidebarButton()
 
@@ -120,20 +114,30 @@ function voidSidebar(elementParent) {
 
 
 
-
+function isSidebarOpen() {
+    let sidebarParentChildren = sidebarParent.children
+    for (let i = 0; i < sidebarParentChildren.length; i++) {
+        if (sidebarParentChildren[i].classList.contains("sidebarTaskConfigContainer")) {
+            return true
+        }
+    }
+    return false
+}
 
 function buttonSaveCancelSidebar(sidebarElementParent) {
-    let buttonsSaveCancel = document.querySelectorAll(".buttonSidebarTask")
     buttonsSaveCancel.forEach((button) => {
         button.addEventListener("click", () => {
             if (button.textContent == "Cancel") {
-                sidebarTaskConfigContainer.style.display = "none"
+                sidebarDiv.remove()
                 taskGrid.style.width = "100%"
             } else if (button.textContent == "Save") {
                 updateObjectSidebarInfo()
                 updateHtmlTaskContent(sidebarElementParent)
-                sidebarTaskConfigContainer.style.display = "none"
+                elementParentObject.taskFinished = !elementParentObject.taskFinished
+                conclusionTaskButtonClicked(sidebarElementParent.children[0].children[0],elementParentObject )
+                sidebarDiv.remove()
                 taskGrid.style.width = "100%"
+                
             }
         })
     })
@@ -144,43 +148,13 @@ function buttonSaveCancelSidebar(sidebarElementParent) {
 function setSidebarVariables(sidebarDiv) {
     taskTextValue = sidebarDiv.children[0].children[1].children[0].children[0].children[1]
 
-    let sidebarContainerParent = sidebarDiv.children[0]
-    sidebarContainer = [sidebarContainerParent.children[1], sidebarContainerParent.children[2], sidebarContainerParent.children[3], 
-    sidebarContainerParent.children[4], sidebarContainerParent.children[5]]
+    sidebarContainer = document.querySelectorAll(".sidebarTaskMainContentChild")
 
-    //List of tasks
-    let listItems = document.querySelectorAll(".listItems")
-    //Text of list's tasks
-    let textListItems = document.getElementById("listItemsText")
-    //Image of list's tasks
-    let imageListItems = document.getElementById("listTask")
-    //Select sidebar and grid of tasks. Turn sidebar visible and decrease task's grid sizec
-    const sidebarTaskConfigContainer = document.querySelector(".sidebarTaskConfigContainer")
-    const taskGrid = document.querySelector(".today-tasks__grid")
-    //All the img's
-    let sidebarImages = document.querySelectorAll(".sidebarTaskImage")
-    //All the paragraphs
-    let sidebarText = document.querySelectorAll(".sidebarTaskText")
-    let listButtonsEditSidebar = document.querySelectorAll(".sidebarTaskButtonsEdit")
+    sidebarImages = document.querySelectorAll(".sidebarTaskImage")
+    sidebarText = document.querySelectorAll(".sidebarTaskText")
+    buttonsSaveCancel = document.querySelectorAll(".buttonSidebarTask")
+    listButtonsEditSidebar = document.querySelectorAll(".sidebarTaskButtonsEdit")
 }
-
-function resetSidebarInfo() {
-    //Reset sidebarText info
-    for (let i = 0; i < sidebarText.length; i++) {
-        switch (i) {
-            case 0:
-                sidebarText[0].textContent = "Remind me"
-                break
-            case 1:
-                sidebarText[1].textContent = "Add due date"
-                break
-            case 2:
-                sidebarText[2].textContent = "Repeat"
-                break
-        }
-    }
-}
-
 
 function sidebarPutInfo() {
     taskTextValue.value = elementParentObject.taskName
@@ -213,35 +187,74 @@ function sidebarPutInfo() {
 
 
 function finishedSidebarButton() {
-    let finishedButton = document.querySelector(".sidebarTaskMainContent__finishedTaskButton")
-    finishedButton.addEventListener("click", () => {
+    conclusionTaskButton = document.querySelector(".sidebarTaskMainContent__finishedTaskButton")
+    if(elementParentObject.taskFinished) {
+        conclusionTaskButton.removeAttribute("class")
+            conclusionTaskButton.classList.add("sidebarTaskMainContent__finishedTaskButton")
+            conclusionTaskButton.classList.add("fa-regular")
+            conclusionTaskButton.classList.add("fa-circle-xmark")
+    }
+    conclusionTaskButton.addEventListener("click", () => {
         if (!elementParentObject.taskFinished) {
             elementParentObject.taskFinished = true
-            finishedButton.removeAttribute("class")
-            finishedButton.classList.add("sidebarTaskMainContent__finishedTaskButton")
-            finishedButton.classList.add("fa-regular")
-            finishedButton.classList.add("fa-circle-xmark")
-            conclusionTaskButtonClicked(conclusionTaskButton)
+            conclusionTaskButton.removeAttribute("class")
+            conclusionTaskButton.classList.add("sidebarTaskMainContent__finishedTaskButton")
+            conclusionTaskButton.classList.add("fa-regular")
+            conclusionTaskButton.classList.add("fa-circle-xmark")
         } else {
             elementParentObject.taskFinished = false
-            finishedButton.removeAttribute("class")
-            finishedButton.classList.add("sidebarTaskMainContent__finishedTaskButton")
-            finishedButton.classList.add("fa-regular")
-            finishedButton.classList.add("fa-circle")
+            conclusionTaskButton.removeAttribute("class")
+            conclusionTaskButton.classList.add("sidebarTaskMainContent__finishedTaskButton")
+            conclusionTaskButton.classList.add("fa-regular")
+            conclusionTaskButton.classList.add("fa-circle")
         }
 
     })
 }
 
+function deleteTask() {
+    const deleteButton = document.querySelector(".trash")
+    deleteButton.addEventListener("click", ()=>{
+        let deleteAnswer = confirm("This action will delete your task and its data permanently, would you like to procede?")
+        if(deleteAnswer) {
+            sidebarDiv.remove()
+            taskGrid.style.width = "100%"
 
+            let tasksFinder = tasks.find(task => task.taskName === elementParentObject.taskName)
+            let indexTasksFinder = tasks.indexOf(tasksFinder)
+            if(indexTasksFinder != -1) {
+                tasks.splice(indexTasksFinder,1)
+            }
 
+            let parentTasks = taskGrid.children[0].children
+            let parentFinishedTasks = taskGrid.children[1].children
+
+            let parentTaskVerification = Array.from(parentTasks).find(task => task.children[0].children[1].textContent == elementParentObject.taskName)
+            if(parentTaskVerification) {
+                parentTaskVerification.remove()
+            } else {
+                parentTaskVerification = Array.from(parentFinishedTasks).slice(1).find(task => task.children[0].children[1].textContent == elementParentObject.taskName)
+                parentTaskVerification.remove()
+                if (!(finishedTasksContainer.children.length > 1)) {
+                    finishedTasksContainer.style.display = "none"
+                }
+            }
+
+    }})
+}
 
 
 
 
 ///*******************************2*******************************/
 function updateObjectSidebarInfo() {
-    let nameTaskContainer = sidebarContainer[0].children[0].children[0].children[1].value
+    let taskNameValue = sidebarContainer[0].children[0].children[0].children[1].value
+    let nameTaskContainer = elementParentObject.taskName
+    if(taskNameValue != nameTaskContainer){
+        if(!nameTaskAlreadyExists(taskNameValue)){
+            nameTaskContainer = sidebarContainer[0].children[0].children[0].children[1].value
+        }
+    }
     let dateTaskContainer = sidebarContainer[1].children[1].textContent
     let alarmTaskContainer = sidebarContainer[2].children[1].textContent
     let frequencyTaskContainer = sidebarContainer[3].children[1].textContent

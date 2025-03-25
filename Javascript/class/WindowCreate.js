@@ -17,12 +17,6 @@ class WindowCreate {
         this.display.classList.add("clickVerify")
         
     }
-
-    //Closes the element
-    fechar() {
-        DisplayCreate.createdElement = false
-        this.display.remove()
-    }
     
     addClass(className) {
         this.display.classList.add(className)
