@@ -1,98 +1,117 @@
 # To-Do List Project
 
-Este é um projeto simples desenvolvido utilizando **JavaScript, HTML e CSS**. Foi meu primeiro projeto dessa escala (embora não seja grande, levou um tempo para ser concluído) e foca exclusivamente no **front-end**.
+This is a simple beginner project built using JavaScript, HTML, and CSS. It was my first project of this scale (although not large, it still took some time to complete), and it focuses solely on the front-end.
 
-Durante o desenvolvimento, experimentei algumas ideias, como o uso de **classes para criar janelas** (com `DisplayCreate` e `WindowCreate`) para simplificar o processo de codificação.
+During development, I experimented with a few ideas, such as using classes to create windows (with `DisplayCreate` and `WindowCreate`) to streamline the coding process.
 
-O projeto foi **inspirado, ainda que de forma distante, no aplicativo Microsoft To-Do List**.
+This project was loosely inspired by the Microsoft To-Do List app.
 
-No fim, este foi um projeto de teste. No futuro, conforme eu aprender novas ferramentas e técnicas, pretendo aprimorá-lo e transformá-lo em um site de **To-Do List realmente útil**.
+Ultimately, this was a test project. In the future, as I learn new tools and techniques, I plan to improve it and turn it into a truly useful To-Do List website.
 
----
+## Notes About the Website
 
-## Notas sobre o site
+This website was designed with multiple sections accessible via the left sidebar. However, for this first version, I decided to keep only the Tasks page.
 
-O site foi projetado com **múltiplas seções** acessíveis via a barra lateral esquerda. No entanto, nesta primeira versão, decidi manter apenas a página de **Tarefas**.
+For the icons, I've mostly used Font Awesome icons.
 
-Para os ícones, utilizei principalmente **Font Awesome**.
-
----
-
-## Explicação sobre cada arquivo JS
+## Explanation of Each JavaScript File
 
 ### `dom.js`
-Este arquivo contém **todas as declarações do DOM** usadas de forma geral nos outros arquivos. Talvez haja uma ou outra declaração de variável perdida em algum documento.
+This file contains all DOM declarations that are used across multiple files. There may be a few stray variable declarations in other documents.
 
 ### `ui.js`
-Guarda **todas as listas e maps** do projeto. Como é um projeto somente front-end, as tarefas são armazenadas em um **array normal**. Também utilizei um **map para os ícones** (`classImages.get(imageName)`) que retorna as duas classes do ícone (`c1` e `c2`).
+This file holds all the lists and maps. Since this is a front-end-only project, I used a normal array to store tasks. I also implemented a map system for each icon (`i`), where you can retrieve an icon's two class names (`c1` and `c2`) using `classImages.get(imageName)`.
 
-Além disso, esse arquivo contém:
-- Listas de tarefas
-- Períodos disponíveis para programar uma tarefa
-- Formas de aviso de tarefas
-- Modos de repetição de tarefas
+Additionally, this file includes lists for:
+- Available task lists
+- Number of days for scheduling a task
+- Task notification methods
+- Task repetition options
 
 ### `index.js`
-Este é o **arquivo inicial** do site. Ele:
-- Adiciona um **event listener** ao campo de input do nome da tarefa.
-- Monitora quando algo é digitado e exibe as **opções de customização**.
-- Garante que apenas a **lista** é obrigatória para cada tarefa, enquanto data, aviso e repetição são opcionais.
+This is the website's main file. It adds an `input` event listener to the task name input field. When something is typed, it displays customization options for the task (list selection, task date, reminder date, and repetition), with the list being the only required field.
 
-Também adiciona **event listeners** de clique aos elementos para gerenciar a interface e usa uma variável `static` dentro da classe `DisplayCreate` para evitar abertura de múltiplas janelas ao mesmo tempo.
+Each element also has a `click` event listener that directs behavior based on which element was clicked. A static variable within the `DisplayCreate` class is set to `true` whenever a window opens. The function `addTaskbarChildElements()` is only called if no windows are open, and it receives the clicked element along with its corresponding list.
 
-Além disso, existe um **event listener global no body** para detectar cliques fora das janelas abertas e fechá-las automaticamente.
+Additionally, a `click` event listener on the body detects clicks anywhere on the page. An array called `stackOpenWindow` tracks open windows. When a user clicks outside a window, the last opened window is removed from this list and from the DOM, closing it and updating `DisplayCreate.createElement` to `false`.
 
-### `addTaskToMain.js`
-Responsável por **controlar o aparecimento das opções de customização** das tarefas. Aqui:
-- O display é criado usando `DisplayCreate`.
-- Os elementos são gerados dinamicamente com `WindowCreate`.
-- Cada opção é configurada, incluindo datas personalizadas com **Flatpickr**.
+### `AddTaskToMain.js`
+This file manages the appearance of customization options for tasks, such as selecting a task list.
 
-Possui lógica específica para elementos como **"Pick a Date"** e **"Pick a Date & Time"**, além de um sistema de **customização de repetição** de tarefas.
+It initializes key variables:
+- `customTaskHtml`: Stores the HTML for the custom task repetition option.
+- `actualDisplay`: Stores the currently open window.
+
+It first creates a display using the `DisplayCreate` class, then adds it to the list of open windows with a timeout to prevent synchronization bugs.
+
+Each list element from `ui.js` is iterated over to generate an HTML element using `WindowCreate`. Once created, the `createTaskbarGridElements` class assigns icons and text.
+
+Handling Click Events:
+- **Exceptions:**
+  - *"Pick a Date" and "Pick a Date & Time"*: Use Flatpickr to allow manual date selection.
+  - *Custom*: Opens a new window with task repetition settings.
+- **Regular Elements:**
+  - Calls `buttonClicked()`, which either resets the task customization (if removing an option) or applies the selected customization.
 
 ### `addTask.js`
-Gerencia a adição de uma nova tarefa. Inclui:
-- **Verificações** para evitar tarefas duplicadas ou sem nome.
-- **Criação do objeto** da tarefa.
-- **Event listener** para marcar a tarefa como concluída.
-- **Atualização da interface** com os elementos criados.
-- Sistema de **tarefas finalizadas**, que só exibe essa seção se houver pelo menos uma tarefa concluída.
+Handles events after clicking the "Add Task" button:
+1. Checks if the task name is unique and not empty.
+2. Creates a task object and adds it to the task list.
+3. Tracks the task count.
+4. Adds the task completion button with event listeners:
+   - `conclusionTaskButtonClicked`: Toggles task completion.
+   - `conclusionTaskButtonChangeStatusAndAppearence`: Updates the button appearance and moves the task if completed.
+5. Generates task HTML using the `addItem` class.
+6. Resets global variables via `defaultTasks()`.
 
-### `sidebar.js`
-Controla a **sidebar de edição das tarefas**, que aparece ao clicar com o **botão direito** em uma tarefa criada.
+### `Sidebar.js`
+Handles the right-click task menu (sidebar for task editing).
 
-Principais funcionalidades:
-- **Abrir e fechar a sidebar** corretamente.
-- **Preencher os campos** com informações da tarefa selecionada.
-- **Permitir edição de nome, datas, notas e repetição**.
-- **Excluir uma tarefa**, com uma verificação antes da remoção.
-- **Marcar a tarefa como concluída** e atualizar a interface.
-- **Botões de salvar/cancelar** que atualizam os dados corretamente.
+#### Global Variables
+- `elementParentObject`: Stores the selected task object.
+- Sidebar elements: `sidebarContainer`, `taskTextValue`, `taskGrid`, etc.
+- `sidebarHtml`: Contains the sidebar template.
+
+#### `voidSidebar()`
+Triggered on right-click:
+1. Prevents default context menu.
+2. Checks if the sidebar is already open (`isSidebarOpen()`).
+3. Identifies the clicked task.
+4. Adjusts the layout (shrinks task grid to 75%).
+5. Creates and displays the sidebar.
+6. Configures sidebar button events:
+   - Delete task (`deleteTask()`).
+   - Load task info (`sidebarPutInfo()`).
+   - Mark as completed (`finishedSidebarButton()`).
+   - Save/Cancel buttons (`buttonSaveCancelSidebar()`).
+
+#### Key Functions
+- `isSidebarOpen()`: Checks if a sidebar is already open.
+- `buttonSaveCancelSidebar()`: Saves or cancels edits.
+- `sidebarPutInfo()`: Fills sidebar fields with task data.
+- `finishedSidebarButton()`: Toggles task completion and updates UI.
+- `deleteTask()`: Confirms and deletes a task from the list and DOM.
+- `updateObjectSidebarInfo()`: Updates task object properties.
+- `updateHtmlTaskContent()`: Updates the task's displayed HTML.
+
+### `Classes`
+
+#### `DisplayCreate.js`
+Simplifies creating parent divs containing elements.
+- Constructor parameters: `width`, `height`, `parentElement`.
+- Static variable `createdElement` prevents multiple window openings.
+- Key methods:
+  - `positionNearButton()`: Positions element near parent.
+  - `getDomElement()`: Returns the created HTML element.
+  - `closeWindow()`: Removes element from DOM and resets `createdElement`.
+  - `addClass()`: Dynamically adds a class.
+
+#### `WindowCreate.js`
+Similar to `DisplayCreate`, but for child elements within a display.
+
+#### `Tasks.js`
+Handles task object creation.
 
 ---
 
-## Classes utilizadas
-
-### `DisplayCreate.js`
-Facilita a criação de elementos de interface de maneira dinâmica.
-- Possui um **atributo static (`createdElement`)** para evitar múltiplas janelas abertas simultaneamente.
-- Define elementos com **position absolute**.
-- Métodos principais:
-  - `positionNearButton()` - Posiciona o elemento perto do parent.
-  - `getDomElement()` - Retorna o elemento HTML.
-  - `closeWindow()` - Remove o elemento do DOM e ajusta a variável `createdElement`.
-  - `addClass()` - Adiciona classes dinamicamente.
-
-### `WindowCreate.js`
-Cria elementos filhos dentro dos `DisplayCreate`, tornando o código mais modular.
-
-### `Tasks.js`
-Responsável por **criar objetos de tarefas** com as configurações selecionadas pelo usuário.
-
----
-
-## Considerações finais
-Este projeto é apenas um **protótipo inicial** e será aprimorado no futuro conforme eu aprender mais sobre **front-end, armazenamento de dados e back-end**.
-
-Sugestões e feedbacks são sempre bem-vindos!
-
+This project was a learning experience, and I plan to refine and expand it as I gain more knowledge in web development. 🚀
